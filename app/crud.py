@@ -4,15 +4,14 @@ from pydantic import ValidationError
 
 def create_task(db: Session, task: schemas.TaskCreate):
     try:
-        db_task = models.Task(task=task.task, status=task.status) 
+        db_task = models.Task(task=task.task, status=task.status)
         db.add(db_task)
         db.commit()
         db.refresh(db_task)
-        return True  # Retorna True se a tarefa foi criada com sucesso
-    except ValidationError:
-        return False
-    except Exception:
-        return False  # Caso ocorra algum erro, retorna False
+        return db_task 
+    except Exception as e:
+        db.rollback()
+        return None 
     
 def get_tasks(db: Session):
     return db.query(models.Task).all()

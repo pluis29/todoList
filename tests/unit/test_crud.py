@@ -5,15 +5,16 @@ from app.models import Task
 def test_create_task_valid(db_session):
     task_data = schemas.TaskCreate(task="Test Task", status=False)
     result = crud.create_task(db=db_session, task=task_data)
-    assert result is True
+    assert result is not None
     task_in_db = db_session.query(Task).first()
     assert task_in_db.task == "Test Task"
     assert task_in_db.status is False
 
+
 def test_create_task_invalid(db_session):
     task1 = Task(task="Task 1", status=False)
     result = crud.create_task(db=db_session, task=task1.id)
-    assert result is False
+    assert result is None
 
 def test_get_tasks(db_session):
     task1 = Task(task="Task 1", status=False)

@@ -1,9 +1,21 @@
 services:
   app:
+    container_name: app
     build: .
     ports:
       - "8000:8000"
     volumes:
       - .:/app
+    restart: always
     environment:
-      - DATABASE_URL=sqlite:///./test.db 
+      - DATABASE_URL=sqlite:///./data/prod.db 
+
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
