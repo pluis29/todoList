@@ -34,7 +34,7 @@ API simples para gerenciamento de tarefas, desenvolvida como parte de um teste d
     venv\Scripts\activate     # Windows
     ```
 
-- Instale as dependências:
+- Instale as dependências (necessário para testes):
     ```bash
     pip install -r requirements.txt
     ```
